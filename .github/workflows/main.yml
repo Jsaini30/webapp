@@ -16,7 +16,6 @@ jobs:
       - name: Set Permissions on Files
         run: |
           sudo chmod -R 755 /var/www/html
-          sudo chown -R nginx:nginx /var/www/html
 
       - name: Copy files to EC2
         run: |
