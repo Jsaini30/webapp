@@ -15,8 +15,9 @@ jobs:
 
       - name: Copy files to EC2
         run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > key.pem
           chmod 600 key.pem
-          scp -i /home/ubuntu/key.pem -o StrictHostKeyChecking=no index.html ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/var/www/html/
+          scp -i key.pem -o StrictHostKeyChecking=no index.html ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/var/www/html/
           
 
       - name: SSH into EC2 and deploy
@@ -24,6 +25,6 @@ jobs:
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          key: /home/ubuntu/key.pem
+          key: key.pem
           script: |
             sudo systemctl restart nginx
